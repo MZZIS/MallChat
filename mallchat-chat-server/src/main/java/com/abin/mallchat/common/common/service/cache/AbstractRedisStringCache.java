@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * 设计模式-模板方法模式
  * Description: redis string类型的批量缓存框架
  * Author: <a href="https://github.com/zongzibinbin">abin</a>
  * Date: 2023-06-10

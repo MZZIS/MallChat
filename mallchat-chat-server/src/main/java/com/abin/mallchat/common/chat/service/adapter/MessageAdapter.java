@@ -38,11 +38,11 @@ public class MessageAdapter {
     public static List<ChatMessageResp> buildMsgResp(List<Message> messages, List<MessageMark> msgMark, Long receiveUid) {
         Map<Long, List<MessageMark>> markMap = msgMark.stream().collect(Collectors.groupingBy(MessageMark::getMsgId));
         return messages.stream().map(a -> {
-            ChatMessageResp resp = new ChatMessageResp();
-            resp.setFromUser(buildFromUser(a.getFromUid()));
-            resp.setMessage(buildMessage(a, markMap.getOrDefault(a.getId(), new ArrayList<>()), receiveUid));
-            return resp;
-        })
+                    ChatMessageResp resp = new ChatMessageResp();
+                    resp.setFromUser(buildFromUser(a.getFromUid()));
+                    resp.setMessage(buildMessage(a, markMap.getOrDefault(a.getId(), new ArrayList<>()), receiveUid));
+                    return resp;
+                })
                 .sorted(Comparator.comparing(a -> a.getMessage().getSendTime()))//帮前端排好序，更方便它展示
                 .collect(Collectors.toList());
     }

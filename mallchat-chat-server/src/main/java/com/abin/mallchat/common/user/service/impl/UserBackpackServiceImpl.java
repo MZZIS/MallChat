@@ -44,10 +44,17 @@ public class UserBackpackServiceImpl implements IUserBackpackService {
         userBackpackService.doAcquireItem(uid, itemId, idempotent);
     }
 
+    /**
+     * 为啥需要做幂等：消息消费的时候超时，可能出现重复消费
+     *
+     * @param uid
+     * @param itemId
+     * @param idempotent
+     */
     @RedissonLock(key = "#idempotent", waitTime = 5000)//相同幂等如果同时发奖，需要排队等上一个执行完，取出之前数据返回
     public void doAcquireItem(Long uid, Long itemId, String idempotent) {
         UserBackpack userBackpack = userBackpackDao.getByIdp(idempotent);
-        //幂等检查
+        //幂等检查，检查跟发放不是原子性，因此需要加锁
         if (Objects.nonNull(userBackpack)) {
             return;
         }
@@ -72,6 +79,7 @@ public class UserBackpackServiceImpl implements IUserBackpackService {
     }
 
     private String getIdempotent(Long itemId, IdempotentEnum idempotentEnum, String businessId) {
+        // 待发放物品id + 场景类型 + 业务id【uid或消息id等】
         return String.format("%d_%d_%s", itemId, idempotentEnum.getType(), businessId);
     }
 }

@@ -6,6 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ThreadFactory;
 
+/**
+ * 设计模式：装饰器模式【在不修改原有代码的情况下，添加或移除功能】
+ */
 @Slf4j
 @AllArgsConstructor
 public class MyThreadFactory implements ThreadFactory {

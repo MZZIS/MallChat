@@ -118,6 +118,7 @@ public class WebSocketServiceImpl implements WebSocketService {
      *
      * @return
      */
+    // todo 生成code为啥搞这复杂，uuid不行？并发？
     private Integer generateLoginCode(Channel channel) {
         int inc;
         do {
